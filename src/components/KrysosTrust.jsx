@@ -122,9 +122,12 @@ const testimonials = [
 
 // TODO: Replace with real case studies
 const caseStudies = [
-  { industry: "Crypto M&A", service: "M&A Readiness", result: "Closed Vietnam's first $15M crypto acquisition", scope: "Sell-side legal counsel for landmark deal between a listed finance group and a leading crypto company — from restructuring to post-deal support" },
-  { industry: "Crypto Payments", service: "Licensing & Compliance", result: "First crypto project accepted into Da Nang Sandbox", scope: "Designed full AML/CFT compliance program for Basal Pay — KYC procedures, governance structure, and sandbox admission materials" },
-  { industry: "Cross-Border", service: "Licensing Strategy", result: "Licensed entities across 7 jurisdictions", scope: "Established and managed compliant structures across the Americas, EU, and Asia — enabling group-wide governance and regulatory alignment" },
+  { tag: "M&A", title: "Landmark Crypto-Sector M&A", desc: "Acted as sell-side legal counsel on a landmark USD 15 million acquisition involving a listed finance group and a leading crypto company in Vietnam, covering restructuring, diligence, negotiation, and post-deal support." },
+  { tag: "Sandbox", title: "Sandbox Compliance Leadership", desc: "Served as founding compliance lead for Basal Pay, the first crypto project in Vietnam accepted into the Da Nang sandbox, with responsibility for AML/CFT architecture, governance, banking engagement, and compliance-by-design." },
+  { tag: "Cross-Border", title: "Cross-Border Licensed Structures", desc: "Established and managed licensed entities across seven jurisdictions in the Americas, Europe, and Asia to support international compliance, governance, and operating resilience." },
+  { tag: "Policy", title: "Policy & Regulatory Contribution", desc: "Contributed to legal opinions incorporated into Vietnam's Digital Technology Industry Law and advised on the country's evolving blockchain AML/VASP framework through leadership at the Vietnam Blockchain Association." },
+  { tag: "Enforcement", title: "Crypto Forensics & Enforcement Support", desc: "Supported enforcement-led crypto matters through evidentiary analysis, investigative coordination, and case-specific engagement with major exchanges in high-scrutiny situations." },
+  { tag: "Institutional", title: "Institutional Transaction Experience", desc: "Participated in legal negotiation work connected to Mitsubishi UFJ Financial Group's strategic investment in VietinBank, one of Vietnam's largest banking transactions involving a major international financial institution." },
 ];
 
 // ─── CSS ──────────────────────────────────────────────────
@@ -193,7 +196,7 @@ function Nav({ page, setPage }) {
   const navItems = [
     { label: "About", pg: "about" },
     { label: "Services", pg: "services" },
-    { label: "Case Studies", pg: "home" },
+    { label: "Case Studies", pg: "cases" },
     { label: "Contact", pg: "home" },
   ];
   const isLight = scrolled || page !== "home";
@@ -369,8 +372,8 @@ function Services({ setPage }) {
   );
 }
 
-// ─── CASE STUDIES ─────────────────────────────────────────
-function CaseStudies() {
+// ─── CASE STUDIES (homepage — top 3) ──────────────────────
+function CaseStudies({ setPage }) {
   return (
     <section className="noise-bg" style={{ position: "relative", padding: "120px 28px", background: C.heading }}>
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1140, margin: "0 auto" }}>
@@ -378,23 +381,24 @@ function CaseStudies() {
           <div style={{ width: 40, height: 1.5, background: C.red }} />
           <span className="fm" style={{ fontSize: 10.5, color: C.red, letterSpacing: 4 }}>TRACK RECORD</span></div></Fade>
         <TextReveal as="h2" className="fd" style={{ fontSize: "clamp(32px,4vw,48px)", fontWeight: 500, color: "#fff", marginBottom: 60 }}>
-          Selected <span style={{ fontStyle: "italic", color: C.redLight }}>Engagements</span></TextReveal>
+          Selected Representative <span style={{ fontStyle: "italic", color: C.redLight }}>Matters</span></TextReveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
-          {caseStudies.map((cs, i) => (
+          {caseStudies.slice(0, 3).map((cs, i) => (
             <Fade key={i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", padding: "36px 28px", transition: "all 0.4s", cursor: "pointer" }}
                 onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.07)"; e.currentTarget.style.borderColor = "rgba(204,45,55,0.2)"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}>
-                <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-                  <span className="fm" style={{ fontSize: 9.5, color: C.red, letterSpacing: 2, padding: "3px 10px", border: `1px solid rgba(204,45,55,0.3)` }}>{cs.industry.toUpperCase()}</span>
-                  <span className="fm" style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", letterSpacing: 2, padding: "3px 10px" }}>{cs.service.toUpperCase()}</span>
-                </div>
-                <h3 className="fd" style={{ fontSize: 22, fontWeight: 600, color: "#fff", marginBottom: 10, lineHeight: 1.3 }}>{cs.result}</h3>
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>{cs.scope}</p>
+                <span className="fm" style={{ fontSize: 9.5, color: C.red, letterSpacing: 2, padding: "3px 10px", border: "1px solid rgba(204,45,55,0.3)", marginBottom: 20, display: "inline-block" }}>{cs.tag.toUpperCase()}</span>
+                <h3 className="fd" style={{ fontSize: 22, fontWeight: 600, color: "#fff", marginBottom: 10, lineHeight: 1.3 }}>{cs.title}</h3>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>{cs.desc}</p>
               </div>
             </Fade>
           ))}
         </div>
+        <Fade delay={0.4}><div style={{ textAlign: "center", marginTop: 40 }}>
+          <MagneticButton className="btn-o" style={{ borderColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)" }}
+            onClick={() => setPage("cases")}>View All Representative Matters {I.arrow}</MagneticButton>
+        </div></Fade>
       </div>
     </section>
   );
@@ -884,9 +888,55 @@ function ServicesPage({ setPage }) {
   );
 }
 
+// ─── CASES PAGE (full) ────────────────────────────────────
+function CasesPage() {
+  return (
+    <div>
+      <section style={{ padding: "160px 28px 80px", background: C.offWhite }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <Fade><div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
+            <LineReveal /><span className="fm" style={{ fontSize: 10.5, color: C.red, letterSpacing: 4 }}>REPRESENTATIVE MATTERS</span>
+          </div></Fade>
+          <TextReveal as="h1" className="fd" style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 500, color: C.heading, lineHeight: 1.15, marginBottom: 28 }}>
+            Selected Representative <span style={{ fontStyle: "italic", color: C.red }}>Matters</span>
+          </TextReveal>
+          <Fade delay={0.2}><p style={{ fontSize: 16, color: C.body, lineHeight: 1.85, maxWidth: 620 }}>
+            Representative matters drawn from leadership and advisory experience across compliance, transactions, regulatory strategy, and cross-border structuring.
+          </p></Fade>
+        </div>
+      </section>
+
+      {caseStudies.map((cs, i) => (
+        <section key={i} style={{ padding: "60px 28px", background: i % 2 === 0 ? C.white : C.warmGray, borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <Fade>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+                <span className="fm" style={{ fontSize: 10, color: C.red, letterSpacing: 2, padding: "4px 12px", border: `1px solid ${C.border}` }}>{cs.tag.toUpperCase()}</span>
+              </div>
+              <h2 className="fd" style={{ fontSize: "clamp(24px, 3vw, 34px)", fontWeight: 500, color: C.heading, marginBottom: 16 }}>{cs.title}</h2>
+              <p style={{ fontSize: 15.5, color: C.body, lineHeight: 1.85, maxWidth: 600 }}>{cs.desc}</p>
+            </Fade>
+          </div>
+        </section>
+      ))}
+
+      <section style={{ padding: "80px 28px", background: C.offWhite, textAlign: "center" }}>
+        <div style={{ maxWidth: 480, margin: "0 auto" }}>
+          <TextReveal as="h2" className="fd" style={{ fontSize: "clamp(26px, 3.5vw, 36px)", fontWeight: 500, color: C.heading }}>
+            Discuss a <span style={{ fontStyle: "italic", color: C.red }}>Similar Mandate</span>?
+          </TextReveal>
+          <Fade delay={0.15}><p style={{ fontSize: 15, color: C.body, lineHeight: 1.8, margin: "16px 0 36px" }}>
+            If your situation involves regulatory complexity, cross-border structuring, or transaction readiness, we welcome a confidential conversation.</p>
+          <MagneticButton className="btn-p">Request a Confidential Assessment {I.arrow}</MagneticButton></Fade>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ─── HOME & APP ───────────────────────────────────────────
 function HomePage({ setPage }) {
-  return (<><Hero /><WhoWeAdvise /><Services setPage={setPage} /><CaseStudies /><HowWeWork /><Testimonials /><CTASection /></>);
+  return (<><Hero /><WhoWeAdvise /><Services setPage={setPage} /><CaseStudies setPage={setPage} /><HowWeWork /><Testimonials /><CTASection /></>);
 }
 
 export default function KrysosTrust() {
@@ -901,6 +951,7 @@ export default function KrysosTrust() {
       {page === "home" && <HomePage setPage={setPage} />}
       {page === "about" && <AboutPage setPage={setPage} />}
       {page === "services" && <ServicesPage setPage={setPage} />}
+      {page === "cases" && <CasesPage />}
       {page === "aml" && <AMLPage setPage={setPage} />}
       <Footer />
     </div>
